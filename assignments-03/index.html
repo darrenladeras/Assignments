@@ -34,7 +34,7 @@
             // Reusable Slug function
                 var toSlug = function(name) {
                         var converToSlug;
-                        converToSlug = name.toLowerCase().replace(/\s/g, '-');
+                        converToSlug = name.replace(/\W+/gi, '-').toLowerCase().replace(/^-|-$/gi, '');
                         return converToSlug;
                     };
 
@@ -43,14 +43,13 @@
                     nav = document.createElement('nav'),
                     ul = document.createElement('ul'),
                     h1 = document.createElement('h1'),
-                    bh = document.head.children[1]; // Accessing the <title> tag
+                    pages = MyWebsite.pages[0].title;
 
             // Appending Childs inside the body tag
                 b.appendChild(nav);
                 nav.appendChild(ul);
                 b.appendChild(h1);
-                h1.textContent = MyWebsite.pages[0].title;
-                bh.textContent = MyWebsite.pages[0].title; // Overriding the title tag innerHTML
+                h1.textContent = pages; // Calls the 'LINE 46'.
 
             // Setting an Attribute
                 nav.id = 'nav';
@@ -61,21 +60,21 @@
                         var li = document.createElement('li'),
                             a = document.createElement('a');
 
-                        ul.appendChild(li);
-                        li.appendChild(a);
+                        ul.appendChild(li); // This ul is outside the loop 'LINE 44'.
+                        li.appendChild(a); // This li is inside THIS FOR LOOP.
 
-                        // Set Attribute for 'for loop'
+                        // Set Attribute for all a inside the page titles
                         a.href = '#' + toSlug(MyWebsite.pages[i].title);
 
                         // The Value of a
-                        a.textContent = MyWebsite.pages[i].title; // these are the 3 titles above this code
+                        a.textContent = MyWebsite.pages[i].title; // these are the 3 titles above the function toSlug
 
                         // Add Event Listener to a
                         a.addEventListener('click', function(Event) {
                             var target = Event.target;
-                            //console.log(target);
+                            console.log(target);
                             h1.textContent = target.textContent;
-                            bh.textContent = target.textContent;
+                            document.title = target.textContent;
                         }, false);
                     }
         </script>
